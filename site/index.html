@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Merge Video — Merge YouTube Videos Online</title>
+  <meta name="description" content="Merge multiple YouTube videos into one and upload directly to your channel. Free, fast, no watermarks.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container header__inner">
+      <a href="/" class="logo">
+        <span class="logo__icon">🎬</span>
+        <span class="logo__text">Merge Video</span>
+      </a>
+      <nav class="nav">
+        <a href="#features" class="nav__link">Features</a>
+        <a href="#how" class="nav__link">How it works</a>
+        <a href="#app" class="nav__link nav__link--cta">Start Merging</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container hero__inner">
+      <div class="hero__badge">Free & No Watermarks</div>
+      <h1 class="hero__title">
+        Merge YouTube Videos<br>
+        <span class="hero__gradient">Into One Click</span>
+      </h1>
+      <p class="hero__subtitle">
+        Paste links. Merge. Upload directly to your YouTube channel.<br>
+        No downloads. No editing software. Just paste and go.
+      </p>
+      <a href="#app" class="btn btn--primary btn--lg">
+        <span>🚀</span> Start Merging
+      </a>
+    </div>
+    <div class="hero__glow"></div>
+  </section>
+
+  <!-- Features -->
+  <section id="features" class="features">
+    <div class="container">
+      <h2 class="section__title">Why Merge Video?</h2>
+      <div class="features__grid">
+        <div class="feature-card">
+          <div class="feature-card__icon">⬇️</div>
+          <h3>Smart Download</h3>
+          <p>yt-dlp downloads at best quality up to 1080p automatically</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card__icon">🎞️</div>
+          <h3>FFmpeg Merge</h3>
+          <p>Professional concat filter with hardware-optimized encoding</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card__icon">⬆️</div>
+          <h3>Direct Upload</h3>
+          <p>Uploads straight to your YouTube channel via OAuth</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card__icon">🤖</div>
+          <h3>Telegram Bot</h3>
+          <p>Merge videos right from Telegram — same features</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card__icon">🔒</div>
+          <h3>Privacy First</h3>
+          <p>Videos are deleted immediately after upload. No storage.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card__icon">🆓</div>
+          <h3>Free Forever</h3>
+          <p>No watermarks, no limits on video count, no hidden fees</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section id="how" class="how">
+    <div class="container">
+      <h2 class="section__title">How it works</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step__num">1</div>
+          <h3>Authorize YouTube</h3>
+          <p>Connect your YouTube account with one click</p>
+        </div>
+        <div class="step__arrow">→</div>
+        <div class="step">
+          <div class="step__num">2</div>
+          <h3>Paste Links</h3>
+          <p>Add 2–10 YouTube video URLs</p>
+        </div>
+        <div class="step__arrow">→</div>
+        <div class="step">
+          <div class="step__num">3</div>
+          <h3>Merge & Upload</h3>
+          <p>We merge and upload to your channel</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- App section -->
+  <section id="app" class="app-section">
+    <div class="container">
+      <div class="app-card">
+        <h2 class="app-card__title">Merge Videos Now</h2>
+
+        <!-- Auth status -->
+        <div id="auth-status" class="auth-status auth-status--unauthorized">
+          <span class="auth-status__icon">🔑</span>
+          <span class="auth-status__text">YouTube not connected</span>
+          <button id="auth-btn" class="btn btn--outline btn--sm" onclick="authorizeYouTube()">
+            Connect YouTube
+          </button>
+        </div>
+
+        <!-- URL inputs -->
+        <div class="url-list" id="url-list">
+          <div class="url-row">
+            <span class="url-row__num">1</span>
+            <input type="url" class="url-input" placeholder="https://youtube.com/watch?v=..." data-index="0">
+            <button class="url-row__remove" onclick="removeUrl(this)" title="Remove">×</button>
+          </div>
+          <div class="url-row">
+            <span class="url-row__num">2</span>
+            <input type="url" class="url-input" placeholder="https://youtube.com/watch?v=..." data-index="1">
+            <button class="url-row__remove" onclick="removeUrl(this)" title="Remove">×</button>
+          </div>
+        </div>
+
+        <button class="btn btn--ghost btn--sm" id="add-url-btn" onclick="addUrl()">
+          + Add Video
+        </button>
+
+        <!-- Title -->
+        <div class="title-input-wrap">
+          <label for="video-title">Video Title</label>
+          <input type="text" id="video-title" class="url-input" placeholder="My Merged Video" value="Merged Video">
+        </div>
+
+        <!-- Submit -->
+        <button class="btn btn--primary btn--lg btn--full" id="merge-btn" onclick="startMerge()">
+          🚀 Merge & Upload to YouTube
+        </button>
+
+        <!-- Progress -->
+        <div id="progress" class="progress" style="display:none;">
+          <div class="progress__bar">
+            <div class="progress__fill" id="progress-fill"></div>
+          </div>
+          <div class="progress__text" id="progress-text">Queued...</div>
+        </div>
+
+        <!-- Result -->
+        <div id="result" class="result" style="display:none;">
+          <div class="result__icon">🎉</div>
+          <h3>Video uploaded!</h3>
+          <a id="result-link" href="#" target="_blank" class="btn btn--primary btn--sm">
+            Watch on YouTube →
+          </a>
+        </div>
+
+        <!-- Error -->
+        <div id="error" class="error-msg" style="display:none;"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__brand">
+        <span class="logo__icon">🎬</span>
+        <span>Merge Video</span>
+      </div>
+      <div class="footer__links">
+        <a href="https://github.com/maximosovsky/merge-video" target="_blank">GitHub</a>
+        <a href="https://t.me/MergeVideo_bot" target="_blank">Telegram Bot</a>
+        <a href="https://www.osovsky.com" target="_blank">Osovsky</a>
+      </div>
+      <div class="footer__copy">© 2026 Maxim Osovsky. MIT License.</div>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

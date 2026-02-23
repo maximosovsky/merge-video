@@ -1,0 +1,10 @@
+fastapi==0.115.6
+uvicorn==0.34.0
+yt-dlp==2025.1.26
+google-api-python-client==2.159.0
+google-auth-oauthlib==1.2.1
+google-auth-httplib2==0.2.0
+python-multipart==0.0.20
+pydantic==2.10.5
+pydantic-settings==2.7.1
+aiofiles==24.1.0

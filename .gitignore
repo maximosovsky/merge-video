@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.env
+temp/
+*.session
+*.session-journal
+node_modules/
+.next/
+.vercel/
+dist/
