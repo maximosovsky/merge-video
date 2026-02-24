@@ -1,7 +1,7 @@
 ---
 title: 3 Deployment Fails That Made Me Quit Oracle Cloud Forever
 published: true
-description: I tried to deploy a Telegram bot to Oracle Cloud Free Tier. After 2 hours of UI bugs, capacity errors, and a card-locked account — I switched to Fly.io and hit a new wall.
+description: I tried to deploy a Telegram bot to Oracle Cloud Free Tier. After 2 hours of UI bugs, capacity errors, and a card-locked account — I switched to Fly.io.
 tags: devops, deployment, buildinpublic, python
 cover_image: https://raw.githubusercontent.com/maximosovsky/merge-video/master/assets/merge-video-2.jpg
 ---
