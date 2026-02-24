@@ -1,6 +1,6 @@
 ---
 title: I Tried to Merge 52 Video Files Automatically. Here Are 3 Bugs That Almost Killed the Project
-published: false
+published: true
 description: How a personal pain of merging hours of strategy session recordings turned into a self-hosted video merging service — and 3 production bugs I didn't see coming.
 tags: python, ffmpeg, fastapi, buildinpublic
 cover_image: https://raw.githubusercontent.com/maximosovsky/merge-video/main/assets/merge-video-1.jpg
