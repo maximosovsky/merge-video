@@ -5,6 +5,9 @@ import os
 import re
 import logging
 
+from dotenv import load_dotenv
+load_dotenv()
+
 from aiogram import Bot, Dispatcher, types, F
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
@@ -15,15 +18,19 @@ from aiogram.types import (
     InlineKeyboardMarkup, InlineKeyboardButton,
 )
 
+from aiogram.client.default import DefaultBotProperties
+
 import aiohttp
+from aiohttp import web
 
 # Config
 BOT_TOKEN = os.getenv("BOT_TOKEN", "")
 API_URL = os.getenv("API_URL", "http://localhost:8000")
+BOT_WEBHOOK_PORT = int(os.getenv("BOT_WEBHOOK_PORT", "8081"))
 
 logging.basicConfig(level=logging.INFO)
 
-bot = Bot(token=BOT_TOKEN, parse_mode="HTML")
+bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode="HTML"))
 dp = Dispatcher(storage=MemoryStorage())
 
 YOUTUBE_REGEX = re.compile(
@@ -258,8 +265,50 @@ async def _poll_job(chat_id: int, job_id: str, interval: int = 5, timeout: int =
     await bot.send_message(chat_id, "⏱ Таймаут — задача обрабатывается слишком долго.")
 
 
+# --- Webhook server for auth notifications ---
+
+async def handle_auth_notify(request: web.Request):
+    """Receive auth notification from backend and notify user in Telegram."""
+    try:
+        data = await request.json()
+        user_id = data.get("user_id", "")  # e.g. "tg_123456"
+        name = data.get("name", "")
+        email = data.get("email", "")
+
+        # Extract Telegram chat_id from user_id
+        if user_id.startswith("tg_"):
+            chat_id = int(user_id[3:])
+            greeting = f" {name}" if name else ""
+            await bot.send_message(
+                chat_id,
+                f"✅ <b>YouTube авторизован!</b>\n\n"
+                f"Привет{greeting}! Теперь можешь отправлять ссылки и склеивать видео.\n"
+                f"{'📧 ' + email if email else ''}",
+                reply_markup=main_kb(),
+            )
+            return web.json_response({"ok": True})
+
+        return web.json_response({"ok": False, "error": "invalid user_id"}, status=400)
+    except Exception as e:
+        logging.error(f"Auth notify error: {e}")
+        return web.json_response({"ok": False, "error": str(e)}, status=500)
+
+
 async def main():
-    await dp.start_polling(bot)
+    # Start webhook server for auth notifications
+    app = web.Application()
+    app.router.add_post("/auth_notify", handle_auth_notify)
+    runner = web.AppRunner(app)
+    await runner.setup()
+    site = web.TCPSite(runner, "0.0.0.0", BOT_WEBHOOK_PORT)
+    await site.start()
+    logging.info(f"🔔 Auth webhook server started on port {BOT_WEBHOOK_PORT}")
+
+    # Start bot polling
+    try:
+        await dp.start_polling(bot)
+    finally:
+        await runner.cleanup()
 
 
 if __name__ == "__main__":

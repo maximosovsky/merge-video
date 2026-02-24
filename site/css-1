@@ -1,0 +1,21 @@
+﻿@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  font-display: fallback;
+  src: url(s/lato/v23/S6uyw4BMUTPHjx4wWw.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 700;
+  font-display: fallback;
+  src: url(s/lato/v23/S6u9w4BMUTPHh6UVSwiPHA.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Sora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: fallback;
+  src: url(s/sora/v11/xMQOuFFYT72X5wkB_18qmnndmSe1mU-NKQc.ttf) format('truetype');
+}

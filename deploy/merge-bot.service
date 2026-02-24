@@ -1,0 +1,17 @@
+[Unit]
+Description=Merge Video Telegram Bot (aiogram 3)
+After=network.target merge-video.service
+
+[Service]
+Type=simple
+User=deploy
+WorkingDirectory=/opt/merge-video/bot
+EnvironmentFile=/opt/merge-video/bot/.env
+ExecStart=/opt/merge-video/venv/bin/python main.py
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

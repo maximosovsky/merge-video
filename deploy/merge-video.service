@@ -1,0 +1,17 @@
+[Unit]
+Description=Merge Video Backend (FastAPI)
+After=network.target
+
+[Service]
+Type=simple
+User=deploy
+WorkingDirectory=/opt/merge-video/backend
+EnvironmentFile=/opt/merge-video/backend/.env
+ExecStart=/opt/merge-video/venv/bin/python main.py
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
