@@ -270,8 +270,6 @@
       padding: 0 36px 36px;
       max-width: 560px;
       width: 90%;
-      max-height: 90vh;
-      overflow-y: auto;
       position: relative;
       box-shadow: 0 8px 40px rgba(99, 102, 241, 0.12), 0 2px 12px rgba(0, 0, 0, 0.06);
       animation: modalIn 0.25s ease;
@@ -504,6 +502,7 @@
 
     .quality-options {
       display: flex;
+      flex-direction: column;
       gap: 10px;
     }
 
@@ -562,8 +561,9 @@
 
     .quality-option {
       display: flex;
-      flex-direction: column;
-      flex: 1;
+      flex-direction: row;
+      align-items: center;
+      gap: 14px;
       padding: 10px 14px;
       border: 2px solid #eee;
       border-radius: 10px;
@@ -578,6 +578,17 @@
 
     .quality-option input[type=radio] {
       display: none;
+    }
+
+    .quality-icon {
+      font-size: 36px;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .quality-text {
+      display: flex;
+      flex-direction: column;
     }
 
     .quality-label {
@@ -1013,13 +1024,12 @@
   <!-- MERGE MODAL -->
   <div id="mergeModal" class="modal-overlay" onclick="if(event.target===this)closeModal()">
     <div class="modal-box">
+      <button class="modal-close" onclick="closeModal()">&times;</button>
       <div class="modal-dots">
         <span class="dot-r" onclick="closeModal()" style="cursor:pointer" title="Close"></span>
         <span class="dot-y"></span>
         <span class="dot-g"></span>
-        <span class="dot-title">Merge Videos</span>
       </div>
-      <h2>🎬 Paste your links</h2>
       <div class="merge-tabs">
         <button class="merge-tab active" onclick="switchTab('youtube',this)">YouTube URLs</button>
         <button class="merge-tab" onclick="switchTab('local',this)">Local Files</button>
@@ -1032,6 +1042,9 @@
             placeholder="https://www.youtube.com/watch?v=...&#10;https://www.youtube.com/playlist?list=...&#10;https://youtu.be/..."></textarea>
           <div class="merge-hint">Paste video URLs or playlist links. Playlists will be expanded automatically.</div>
         </div>
+        <label class="checkbox-row">
+          <input type="checkbox" id="uploadToYtUrls"> Upload result to YouTube
+        </label>
       </div>
       <!-- Local Files tab -->
       <div id="tab-local" class="tab-content">
@@ -1085,18 +1098,27 @@
         <div class="quality-options">
           <label class="quality-option">
             <input type="radio" name="mergeMode" value="compact" checked>
-            <span class="quality-label">🗜️ Compact</span>
-            <span class="quality-desc">Smaller file, CRF 23</span>
+            <span class="quality-icon">🗜️</span>
+            <span class="quality-text">
+              <span class="quality-label">Compact</span>
+              <span class="quality-desc">Smaller file, CRF 23</span>
+            </span>
           </label>
           <label class="quality-option">
             <input type="radio" name="mergeMode" value="highquality">
-            <span class="quality-label">⚖️ High Quality</span>
-            <span class="quality-desc">Near original, CRF 18</span>
+            <span class="quality-icon">⚖️</span>
+            <span class="quality-text">
+              <span class="quality-label">High Quality</span>
+              <span class="quality-desc">Near original, CRF 18</span>
+            </span>
           </label>
           <label class="quality-option">
             <input type="radio" name="mergeMode" value="lossless">
-            <span class="quality-label">💎 Lossless</span>
-            <span class="quality-desc">1:1 quality, instant, same codecs</span>
+            <span class="quality-icon">💎</span>
+            <span class="quality-text">
+              <span class="quality-label">Lossless</span>
+              <span class="quality-desc">1:1 quality, instant, same codecs</span>
+            </span>
           </label>
         </div>
       </div>
