@@ -352,7 +352,7 @@
       font-size: 14px;
     }
 
-    .modal-box label {
+    .modal-box label:not(.quality-option) {
       display: block;
       font-weight: 700;
       color: #33334f;
@@ -362,7 +362,7 @@
 
     .modal-box textarea {
       width: 100%;
-      min-height: 110px;
+      min-height: 80px;
       border: 2px solid #e2e4ef;
       border-radius: 8px;
       padding: 12px;
@@ -498,6 +498,7 @@
 
     .tab-content.active {
       display: block;
+      min-height: 140px;
     }
 
     .quality-options {
@@ -513,19 +514,18 @@
       width: 18px;
       height: 18px;
       border-radius: 50%;
-      background: #e8eaff;
+      background: none;
       color: #6078ff;
-      font-size: 12px;
+      font-size: 14px;
       font-weight: 700;
       cursor: pointer;
-      margin-left: 4px;
-      vertical-align: middle;
+      margin-left: 6px;
+      vertical-align: baseline;
       transition: all 0.2s;
     }
 
     .quality-info-btn:hover {
-      background: #6078ff;
-      color: #fff;
+      color: #4058df;
     }
 
     .quality-info {
@@ -562,10 +562,12 @@
     .quality-option {
       display: flex;
       flex-direction: row;
+      flex-wrap: nowrap;
       align-items: center;
-      gap: 14px;
+      gap: 8px;
       flex: 1;
-      padding: 10px 14px;
+      min-width: 0;
+      padding: 8px 10px;
       border: 2px solid #eee;
       border-radius: 10px;
       cursor: pointer;
@@ -582,7 +584,7 @@
     }
 
     .quality-icon {
-      font-size: 36px;
+      font-size: 24px;
       line-height: 1;
       flex-shrink: 0;
     }
@@ -590,6 +592,7 @@
     .quality-text {
       display: flex;
       flex-direction: column;
+      min-width: 0;
     }
 
     .quality-label {
@@ -606,7 +609,7 @@
     .file-drop {
       border: 2px dashed #ccc;
       border-radius: 12px;
-      padding: 32px 20px;
+      padding: 20px 20px;
       text-align: center;
       cursor: pointer;
       transition: all 0.2s;
@@ -1038,19 +1041,19 @@
       <!-- YouTube tab -->
       <div id="tab-youtube" class="tab-content active">
         <div class="field">
-          <label>Video or Playlist URLs (one per line)</label>
           <textarea id="urlsInput"
-            placeholder="https://www.youtube.com/watch?v=...&#10;https://www.youtube.com/playlist?list=...&#10;https://youtu.be/..."></textarea>
+            placeholder="Video or Playlist URLs (one per line)&#10;&#10;https://www.youtube.com/watch?v=...&#10;https://www.youtube.com/playlist?list=...&#10;https://youtu.be/..."></textarea>
           <div class="merge-hint">Paste video URLs or playlist links. Playlists will be expanded automatically.</div>
         </div>
         <label class="checkbox-row">
           <input type="checkbox" id="uploadToYtUrls"> Upload result to YouTube
+          <span class="quality-info-btn"
+            onclick="event.preventDefault();document.getElementById('qualityInfo').classList.toggle('open')">ⓘ</span>
         </label>
       </div>
       <!-- Local Files tab -->
       <div id="tab-local" class="tab-content">
         <div class="field">
-          <label>Select video files</label>
           <div class="file-drop" id="fileDrop" onclick="document.getElementById('fileInput').click()">
             <div class="file-drop-icon">📁</div>
             <div>Click to select or drag & drop video files</div>
@@ -1062,12 +1065,38 @@
         <div id="fileSummaryBottom" class="file-summary" style="display:none"></div>
         <label class="checkbox-row">
           <input type="checkbox" id="uploadToYt"> Upload result to YouTube
+          <span class="quality-info-btn"
+            onclick="event.preventDefault();document.getElementById('qualityInfo').classList.toggle('open')">ⓘ</span>
         </label>
       </div>
       <!-- Shared -->
       <div class="field">
-        <label>Quality Mode <span class="quality-info-btn"
-            onclick="document.getElementById('qualityInfo').classList.toggle('open')">ⓘ</span></label>
+        <div class="quality-options">
+          <label class="quality-option">
+            <input type="radio" name="mergeMode" value="compact" checked>
+            <span class="quality-icon">🗜️</span>
+            <span class="quality-text">
+              <span class="quality-label">Compact</span>
+              <span class="quality-desc">Smaller file, CRF 23</span>
+            </span>
+          </label>
+          <label class="quality-option">
+            <input type="radio" name="mergeMode" value="highquality">
+            <span class="quality-icon">⚖️</span>
+            <span class="quality-text">
+              <span class="quality-label">High Quality</span>
+              <span class="quality-desc">Near original, CRF 18</span>
+            </span>
+          </label>
+          <label class="quality-option">
+            <input type="radio" name="mergeMode" value="lossless">
+            <span class="quality-icon">💎</span>
+            <span class="quality-text">
+              <span class="quality-label">Lossless</span>
+              <span class="quality-desc">1:1 quality, instant, same codecs</span>
+            </span>
+          </label>
+        </div>
         <div class="quality-info" id="qualityInfo">
           <table>
             <tr>
@@ -1096,36 +1125,10 @@
             </tr>
           </table>
         </div>
-        <div class="quality-options">
-          <label class="quality-option">
-            <input type="radio" name="mergeMode" value="compact" checked>
-            <span class="quality-icon">🗜️</span>
-            <span class="quality-text">
-              <span class="quality-label">Compact</span>
-              <span class="quality-desc">Smaller file, CRF 23</span>
-            </span>
-          </label>
-          <label class="quality-option">
-            <input type="radio" name="mergeMode" value="highquality">
-            <span class="quality-icon">⚖️</span>
-            <span class="quality-text">
-              <span class="quality-label">High Quality</span>
-              <span class="quality-desc">Near original, CRF 18</span>
-            </span>
-          </label>
-          <label class="quality-option">
-            <input type="radio" name="mergeMode" value="lossless">
-            <span class="quality-icon">💎</span>
-            <span class="quality-text">
-              <span class="quality-label">Lossless</span>
-              <span class="quality-desc">1:1 quality, instant, same codecs</span>
-            </span>
-          </label>
-        </div>
       </div>
       <div class="field">
         <label>Output Title</label>
-        <input type="text" id="titleInput" value="Merged Video" placeholder="Name for the merged video">
+        <input type="text" id="titleInput" value="Merged Video test" placeholder="Name for the merged video">
       </div>
       <button class="merge-btn" id="mergeBtn" onclick="startMerge()">Merge →</button>
       <div class="merge-status" id="statusBox"></div>

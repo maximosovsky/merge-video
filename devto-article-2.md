@@ -17,7 +17,7 @@ In [Part 1](https://dev.to/osovsky/i-tried-to-merge-52-video-files-automatically
 ![Maxim Osovsky during a strategy session](https://raw.githubusercontent.com/maximosovsky/merge-video/master/assets/maxim-osovsky-strategy-session.JPG)
 
 Two requirements:
-1. **Free** — I'm not paying a monthly bill for a side project that has zero users
+1. **Free** — at the prototype stage, free tier makes the most sense. Cloud providers offer generous free tiers specifically for this use case — validating ideas before committing budget. Once there's real traffic and real users, paying for infrastructure is a no-brainer. But spending money before product-market fit is just burning runway
 2. **Persistent** — a long-polling bot needs to stay alive, not sleep after 15 minutes of inactivity like [Render](https://render.com/)'s free tier
 
 [Oracle Cloud Free Tier](https://www.oracle.com/cloud/free/) looked perfect on paper: **4 ARM CPUs, 24 GB RAM, 200 GB disk** — free forever. Not a trial. Not 12 months. *Forever.*
@@ -165,7 +165,6 @@ And it's been running stable since.
 | Email notifications | ✅ [Gmail API](https://developers.google.com/gmail/api) |
 | YouTube upload | ✅ OAuth2 |
 | Stress test (52 files, 13 GB) | ✅ Passed |
-| Large file upload via HTTP | ❌ Hangs on 13 GB |
 | Backend deployment | ❌ Still localhost |
 | YouTube auth via bot | ❌ Needs deployed backend |
 
