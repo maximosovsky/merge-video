@@ -85,9 +85,9 @@ I spent 40 minutes on this *before* discovering I couldn't get a server anyway.
 
 After getting the capacity error on *both* shapes, I thought: what if the problem is this specific datacenter? Some regions have more available servers than others.
 
-I couldn't change regions on my existing account — Oracle locks your home region at signup. So I registered a **second account** using a Gmail alias (`myemail+oci2@gmail.com`). Different email, different region.
+I couldn't change regions on my existing account — Oracle locks your home region at signup. So I went all in: registered a **second account** with a different Gmail address (not even an alias — Oracle didn't accept `+` aliases). Used a Regus coworking address in Tilburg, Netherlands as my billing address. Used my second phone number for verification.
 
-Made it through the entire signup flow. Got to the payment verification step. Entered my card.
+Different email. Different address. Different phone. Made it through the entire signup flow. Got to the payment verification step. Entered my card.
 
 ```
 Error: You already have an account with a different email address.
@@ -96,7 +96,7 @@ Oracle allows one promotion per person.
 
 This was the moment I was done.
 
-Oracle links your identity to your **card number**. One card = one account = one datacenter = zero servers. Different email doesn't matter. Different region doesn't matter. You get one shot, and if your datacenter is full — tough luck.
+Oracle links your identity to your **card number**. One card = one account = one datacenter = zero servers. Different email doesn't matter. Different address doesn't matter. Different phone doesn't matter. You get one shot, and if your datacenter is full — tough luck.
 
 No retry. No workaround. No path forward.
 
@@ -109,7 +109,7 @@ No retry. No workaround. No path forward.
 | Public IPv4 checkbox | ❌ Grayed out (UI bug) |
 | Manual VCN + public subnet | ✅ Fixed the checkbox |
 | VM creation after VCN fix | ❌ Still out of capacity |
-| Second account, different region | ❌ Blocked by card |
+| Second account (new email, new address, new phone) | ❌ Blocked by card |
 | **Total time** | **2 hours** |
 | **Total servers** | **0** |
 | **Total RAM obtained** | **0 bytes** |
@@ -136,60 +136,11 @@ fly deploy
 | **Time to deploy** | 2 hours | 10 minutes |
 | **Result** | 0 servers | 1 running bot |
 | **UI complexity** | 6 pages, 2 wizards | 4 CLI commands |
-| **Account tricks needed** | Gmail alias, card juggling | GitHub login |
+| **Account tricks needed** | Second email, Regus address, second phone | GitHub login |
 
 Everything worked.
 
-For about 90 seconds.
-
----
-
-## Fail #4: 256 MB Is Not Enough
-
-```
-[176.289273] Out of memory: Killed process 647 (python)
-total-vm:240504kB, anon-rss:137440kB
-INFO Process appears to have been OOM killed!
-INFO Starting clean up.
-reboot: Restarting system
-```
-
-The bot used **~137 MB of RAM**. [Fly.io](https://fly.io/)'s free tier gives **256 MB** per machine. Sounds like plenty — but after the OS, kernel buffers, and firecracker VM overhead, there's only about **150 MB left** for the app.
-
-The bot would start → run for 60–90 seconds → get OOM killed → restart → get killed again. An infinite crash loop. I watched it die 6 times in 10 minutes.
-
-### Why was a Telegram bot eating 137 MB?
-
-The bot was running two things:
-1. **[aiogram](https://docs.aiogram.dev/)** — Telegram long-polling (~50 MB)
-2. **[aiohttp](https://docs.aiohttp.org/) web server** — a webhook endpoint for the backend to notify the bot when YouTube auth completes (~30 MB)
-
-Plus Python 3.12 runtime, imported libraries, asyncio event loop, garbage collector overhead. Total: **137 MB resident**.
-
-### The fix
-
-The webhook server wasn't needed yet — there was no deployed backend to send webhooks. I was running infrastructure for a feature that didn't exist in production.
-
-I removed the aiohttp web server entirely:
-
-```python
-# Before: bot + webhook server (137 MB)
-async def main():
-    await asyncio.gather(
-        start_webhook_server(),  # aiohttp on port 8081
-        dp.start_polling(bot)    # aiogram polling
-    )
-
-# After: bot only (~80 MB)
-async def main():
-    await dp.start_polling(bot)
-```
-
-Redeployed. Memory dropped to **~80 MB**. No more OOM kills. The bot has been running stable since.
-
-### The lesson
-
-> On constrained infrastructure, every dependency is a luxury. A web server you don't need yet is 30 MB you can't afford. **Ship the minimum. Add features when you have the server to run them.**
+And it's been running stable since.
 
 ---
 
@@ -200,8 +151,7 @@ Redeployed. Memory dropped to **~80 MB**. No more OOM kills. The bot has been ru
 | Oracle Free Tier = free server | Free tier with **zero available servers** |
 | "Always Free" means always available | Means always free *if you can get one* |
 | Oracle Cloud UI is enterprise-grade | 3-page workaround for a single checkbox |
-| One Gmail = one account | One **card** = one account, forever |
-| 256 MB is plenty for a Python bot | Python + 2 async frameworks = OOM crash loop |
+| Different email + address + phone = new account | One **card** = one account, forever |
 | Deploy takes 30 minutes | Oracle: 2 hours → nothing. Fly.io: 10 minutes → working |
 
 ---
