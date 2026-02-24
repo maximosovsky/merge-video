@@ -3,14 +3,14 @@ title: I Tried to Merge 52 Video Files Automatically. Here Are 3 Bugs That Almos
 published: true
 description: How a personal pain of merging hours of strategy session recordings turned into a self-hosted video merging service — and 3 production bugs I didn't see coming.
 tags: python, ffmpeg, fastapi, buildinpublic
-cover_image: https://raw.githubusercontent.com/maximosovsky/merge-video/main/assets/merge-video-1.jpg
+cover_image: https://raw.githubusercontent.com/maximosovsky/merge-video/master/assets/mergevideo-1.jpg
 ---
 
 ## The $1,500 Problem
 
 I film long strategy sessions — 6 to 8 hours each. When you record for that long, things go wrong. The battery dies. The power goes out. And when it does, the entire file gets corrupted.
 
-![Maxim Osovsky filming a strategy session](https://raw.githubusercontent.com/maximosovsky/merge-video/main/assets/maxim-osovsky-strategy-session.jpg)
+![Maxim Osovsky filming a strategy session](https://raw.githubusercontent.com/maximosovsky/merge-video/master/assets/maxim-osovsky-strategy.jpg)
 
 So I set my camera to record in short segments — about 20 minutes each. Safe, but now I have **52 separate video files** after every session that I need to merge into one.
 
@@ -87,7 +87,7 @@ Browser / Telegram Bot
 
 Everything worked fine on small tests — 2 files, 40 MB each, merged in a minute. So I ran the real thing: **52 video files, 13 GB total**.
 
-![52 video files loaded into Merge Video by Maxim Osovsky](https://raw.githubusercontent.com/maximosovsky/merge-video/main/assets/screenshot52.jpg)
+![52 video files loaded into Merge Video by Maxim Osovsky](https://raw.githubusercontent.com/maximosovsky/merge-video/master/assets/screenshot-52.jpg)
 
 Three things broke. Every one of them taught me something.
 
