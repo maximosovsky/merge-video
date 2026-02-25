@@ -76,12 +76,6 @@ class JobQueue:
                 except Exception as e:
                     print(f"📧 Job start email error: {e}")
 
-                # Get user's access token for yt-dlp auth
-                access_token = ""
-                creds = get_credentials(job.user_id)
-                if creds:
-                    access_token = creds.token or ""
-
                 # Get files (download or use local)
                 if job.local_files:
                     files = [Path(f) for f in job.local_files]
@@ -90,7 +84,7 @@ class JobQueue:
                 else:
                     job.status = JobStatus.DOWNLOADING
                     job.progress = f"Downloading {len(job.urls)} videos..."
-                    files = await download_videos(job.urls, job.job_dir, access_token=access_token)
+                    files = await download_videos(job.urls, job.job_dir)
 
                 # Merge
                 job.status = JobStatus.MERGING

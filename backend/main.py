@@ -77,7 +77,7 @@ async def merge(req: MergeRequest):
             raise HTTPException(401, "YouTube not authorized. Visit /auth/youtube?user_id=... first")
 
         # Expand playlist URLs into individual video URLs
-        expanded = await expand_urls(req.urls, access_token=creds.token or "")
+        expanded = await expand_urls(req.urls)
 
         if len(expanded) < 2:
             raise HTTPException(400, "Need at least 2 videos to merge (playlist may contain only 1)")
