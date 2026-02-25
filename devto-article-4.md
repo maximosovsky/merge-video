@@ -3,7 +3,7 @@ title: "6 Ways to Get YouTube Cookies for yt-dlp in 2025 — Only 1 Works"
 published: false
 description: I tried DPAPI, CDP, rookiepy, OAuth2, and Bearer tokens to extract Chrome cookies. All failed. Firefox solved it in 10 lines of Python.
 tags: python, chrome, security, buildinpublic
-cover_image: https://raw.githubusercontent.com/maximosovsky/merge-video/master/assets/mergevideo-1.jpg
+cover_image: https://raw.githubusercontent.com/maximosovsky/merge-video/master/assets/4-maxim-osovsky.jpg
 ---
 
 ## The Hypothesis
@@ -28,6 +28,8 @@ YouTube detected the datacenter IP and blocked downloads. The fix seemed obvious
 ## What Debugging Cookies Taught Me About Strategy
 
 I run [strategic sessions](https://osovsky.medium.com/schem-b1810498982d) — 6-to-10-hour workshops where teams map complex systems before making decisions. We draw the object of management, analyze its place in a larger system, do hindsight and foresight, and only then build a plan. Over 150 sessions so far.
+
+![Maxim Osovsky during a strategy session](https://raw.githubusercontent.com/maximosovsky/merge-video/master/assets/maxim-osovsky-4.jpg)
 
 The cookie debugging was the exact opposite of this process.
 
