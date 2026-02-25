@@ -3,7 +3,7 @@ title: "I Was Building a Cloud Video Service. YouTube Turned Me Into an IP Traff
 published: true
 description: I tested 7 ways to download YouTube videos from a server. All failed except buying residential proxies. Here's the cost analysis.
 tags: python, youtube, proxy, buildinpublic
-cover_image: https://raw.githubusercontent.com/maximosovsky/merge-video/master/assets/mergevideo-1.jpg
+cover_image: https://raw.githubusercontent.com/maximosovsky/merge-video/master/assets/maxim-osovsky-5.jpg
 ---
 
 ## The Irony
@@ -26,6 +26,8 @@ This is that story.
 
 I film long strategy sessions — 6 to 8 hours each. My camera records in 20-minute segments. After each session I have dozens of files that need to be joined. I spent over **$1,500** outsourcing this before building the service myself.
 
+![Maxim Osovsky during a strategy session](https://raw.githubusercontent.com/maximosovsky/merge-video/master/assets/5-maxim-osovsky.jpg)
+
 Here's the thing: after a session, I rarely have time to edit. So I upload the raw segments straight to YouTube — unmerged, unedited — just to free up disk space. YouTube becomes my storage. Over the years I've accumulated **hundreds of raw clips** organized into playlists, each playlist representing one session that still needs to be merged into a single video for the archive.
 
 That's why the "YouTube URLs" mode exists. It will let you paste a playlist link and the server will download all the clips, merge them, and upload the result back as one video. It worked perfectly on localhost. On the cloud server:
@@ -34,7 +36,7 @@ That's why the "YouTube URLs" mode exists. It will let you paste a playlist link
 ERROR: Sign in to confirm you're not a bot.
 ```
 
-In [Part 1](https://dev.to/osovsky/i-tried-to-merge-52-video-files-automatically-here-are-3-bugs-that-almost-killed-the-project-oon), I solved the ffmpeg bugs. In [Part 2](https://dev.to/osovsky/ARTICLE4_SLUG), I solved cookie extraction. This is Part 3: getting downloads to actually work from a server.
+In [Part 1](https://dev.to/osovsky/i-tried-to-merge-52-video-files-automatically-here-are-3-bugs-that-almost-killed-the-project-oon), I solved the ffmpeg bugs. In [Part 2](https://dev.to/osovsky/6-ways-to-get-youtube-cookies-for-yt-dlp-in-2026-only-1-works-2cnb), I solved cookie extraction. This is Part 3: getting downloads to actually work from a server.
 
 ---
 
@@ -294,6 +296,6 @@ I started this project to avoid paying $30–50 per merge to a human editor. At 
 
 ---
 
-*This is Part 3 of a series about building [Merge Video](https://github.com/maximosovsky/merge-video). Previous: [6 Ways to Get YouTube Cookies — Only 1 Works](https://dev.to/osovsky/ARTICLE4_SLUG).*
+*This is Part 3 of a series about building [Merge Video](https://github.com/maximosovsky/merge-video). Previous: [6 Ways to Get YouTube Cookies — Only 1 Works](https://dev.to/osovsky/6-ways-to-get-youtube-cookies-for-yt-dlp-in-2026-only-1-works-2cnb).*
 
 Building in public, one utility at a time. Follow the journey: [LinkedIn](https://www.linkedin.com/in/osovsky/) · [GitHub](https://github.com/maximosovsky)
