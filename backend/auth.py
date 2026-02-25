@@ -157,23 +157,23 @@ def send_auth_email(user_id: str):
     _send_email(user_id, "🔐 Merge Video — Authorized", body)
 
 
-def send_job_received_email(user_id: str, title: str, file_count: int, total_size: str):
+def send_job_received_email(user_id: str, title: str, file_count: int):
     """Send email when merge job is received (before files are saved)."""
     body = _email_wrap(f"""
         <h2>📥 Job received</h2>
         <p>Your merge job <strong>"{title}"</strong> has been received.</p>
-        <p>📎 {file_count} files · {total_size}</p>
+        <p>📎 {file_count} files</p>
         <p>Uploading files to server...</p>
     """)
     _send_email(user_id, f'📥 Received: "{title}" ({file_count} files)', body)
 
 
-def send_job_started_email(user_id: str, title: str, file_count: int, total_size: str):
+def send_job_started_email(user_id: str, title: str, file_count: int):
     """Send email when files are uploaded and merge begins."""
     body = _email_wrap(f"""
         <h2>📦 Files uploaded — merging</h2>
         <p>All files for <strong>"{title}"</strong> have been uploaded.</p>
-        <p>📎 {file_count} files · {total_size}</p>
+        <p>📎 {file_count} files</p>
         <p>Merging has started. You'll receive an email when it's done.</p>
     """)
     _send_email(user_id, f'📦 Merging: "{title}" ({file_count} files)', body)

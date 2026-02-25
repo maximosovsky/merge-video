@@ -61,18 +61,12 @@ class JobQueue:
         while True:
             job = await self._queue.get()
             try:
-                # Calculate total size for email
-                total_bytes = 0
-                if job.local_files:
-                    for f in job.local_files:
-                        try: total_bytes += Path(f).stat().st_size
-                        except: pass
-                total_size = f"{total_bytes / 1073741824:.1f} GB" if total_bytes > 1073741824 else f"{total_bytes / 1048576:.0f} MB"
+                # Calculate file count for email
                 file_count = len(job.local_files) if job.local_files else len(job.urls)
 
                 # Send "job started" email
                 try:
-                    send_job_started_email(job.user_id, job.title, file_count, total_size)
+                    send_job_started_email(job.user_id, job.title, file_count)
                 except Exception as e:
                     print(f"📧 Job start email error: {e}")
 

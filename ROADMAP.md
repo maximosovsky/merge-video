@@ -65,8 +65,13 @@
 - [x] Google Console
 - [x] Telegram Bot
 - [x] Server hardening (fail2ban, UFW, SSH key-only, rate limiting)
-- [ ] E2E тест (OAuth + merge + upload)
+- [x] E2E тест (OAuth + merge + upload) ✅ 25.02.2026
 - [x] Frankfurt VPC — `node deploy/cleanup.js`
+
+## UX-улучшения
+
+- [x] После отправки на мерж — модальное окно: «Go grab a coffee ☕» + email notification reminder + close button
+- [x] Email: показывать только количество файлов, без размера
 
 ## Скачивание с YouTube — результаты тестов
 
@@ -89,4 +94,17 @@
 - ✅ **YouTube upload с Alibaba** — OAuth2 настроен
 
 ### Следующие шаги
-Интегрировать Decodo proxy в `video.py` → E2E тест Режима 1 (YouTube URLs → merge → upload).
+- [x] Интегрировать Decodo proxy в `video.py` (expand_urls + download_videos)
+- [x] Установить PySocks в venv на сервере
+- [x] E2E тест Режим 1: YouTube URLs → proxy download → merge → YouTube upload → email
+
+### E2E тест — 25.02.2026
+
+| Этап | Результат |
+|------|-----------|
+| Скачивание 2 видео через Decodo | ✅ 872 MB (17 мин + 26 мин) |
+| Трафик proxy зафиксирован | 872.63 MB из 2 GB плана |
+| ffmpeg нормализация (1920×1080) | ✅ ~60 мин (2 vCPU) |
+| ffmpeg concat | ✅ |
+| YouTube upload | ✅ 980 MB, 1920×1080 |
+| Email уведомление | ✅ "Dorob Holding -1-2" |

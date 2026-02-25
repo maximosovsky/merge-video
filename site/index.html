@@ -510,7 +510,13 @@
           box.className = 'merge-status error'; box.textContent = '❌ Error: ' + d.error;
           btn.disabled = false; btn.textContent = '🚀 Merge Videos';
         } else {
-          box.textContent = '⏳ ' + d.progress + ' (' + d.status + ')';
+          box.className = 'merge-status info coffee-status';
+          box.innerHTML = '<div class="coffee-msg">' +
+            '<div style="font-size:48px;margin-bottom:12px">☕</div>' +
+            '<div style="font-size:16px;font-weight:700;margin-bottom:8px">Go grab a coffee!</div>' +
+            '<div style="font-size:13px;color:#666;margin-bottom:12px">Your video is being processed. This may take a while for long videos.</div>' +
+            '<div style="font-size:12px;color:#888;margin-top:8px">📧 You\'ll get an email when it\'s ready. You can close this page.</div>' +
+            '</div>';
           setTimeout(() => pollStatus(jobId), 3000);
         }
       } catch (e) { setTimeout(() => pollStatus(jobId), 5000); }

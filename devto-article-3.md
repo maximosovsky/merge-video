@@ -14,7 +14,7 @@ cover_image: https://raw.githubusercontent.com/maximosovsky/merge-video/master/a
 
 I run long strategy sessions — 6 to 8 hours each — where we plan product roadmaps, discuss architecture, and make decisions on camera. Each session produces 30 to 50 short video clips that need to be merged into one continuous video.
 
-![Maxim Osovsky during a strategy session](https://raw.githubusercontent.com/maximosovsky/merge-video/master/assets/maxim-osovsky-strategy-session.JPG)
+![Maxim Osovsky during a strategy session](https://raw.githubusercontent.com/maximosovsky/merge-video/master/assets/osovsky-strategy.jpg)
 
 I offered **$2,000** to a developer to build a service that merges videos and uploads them to YouTube. They turned it down — didn't see the problem it solved. Multiple developers refused. So I built [Merge Video](https://github.com/maximosovsky/merge-video) myself — with AI as my pair programmer, in 3 days, for $0 in development costs. The code works. Now I needed to put it on a server.
 

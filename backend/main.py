@@ -135,10 +135,8 @@ async def merge_upload(
         job_id, job_dir = create_job_dir()
 
         # Send "received" email before saving
-        total_size_bytes = sum(f.size or 0 for f in files)
-        size_str = f"{total_size_bytes / 1073741824:.1f} GB" if total_size_bytes > 1073741824 else f"{total_size_bytes / 1048576:.0f} MB"
         try:
-            send_job_received_email(user_id, title, len(files), size_str)
+            send_job_received_email(user_id, title, len(files))
         except Exception as e:
             print(f"📧 Received email error: {e}")
 
