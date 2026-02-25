@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@alicloud/ecs20140526": "^7.6.0",
+    "@alicloud/openapi-client": "^0.4.15",
+    "@alicloud/vpc20160428": "^7.0.0"
+  }
+}

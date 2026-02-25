@@ -297,6 +297,10 @@ if site_dir.exists():
     async def serve_app():
         return FileResponse(site_dir / "index.html")
 
+    @app.get("/style.css")
+    async def serve_style():
+        return FileResponse(site_dir / "style.css", media_type="text/css")
+
     # Mount all static asset directories
     for subdir in ["css", "lib_hCbTwtypfRFzmFju", "lib_wfKJyoksALKsfAWv"]:
         d = site_dir / subdir

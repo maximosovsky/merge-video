@@ -54,7 +54,7 @@ nginx -t && systemctl reload nginx
 echo ""
 echo "=== SSL Setup ==="
 echo "After pointing DNS to this server, run:"
-echo "  certbot --nginx -d merge.osovsky.com"
+echo "  certbot --nginx -d merge-video.osovsky.com"
 echo ""
 
 # 9. Systemd services
@@ -69,7 +69,7 @@ echo ""
 echo "Next steps:"
 echo "  1. Fill in backend/.env and bot/.env"
 echo "  2. Point DNS to this server's IP"
-echo "  3. Run: certbot --nginx -d merge.osovsky.com"
+echo "  3. Run: certbot --nginx -d merge-video.osovsky.com"
 echo "  4. Start services:"
 echo "     systemctl start merge-video"
 echo "     systemctl start merge-bot"

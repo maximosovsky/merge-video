@@ -8,3 +8,10 @@ node_modules/
 .next/
 .vercel/
 dist/
+.vscode/
+
+# Deploy scripts with secrets
+deploy/create-ecs.js
+deploy/check-resources.js
+deploy/cleanup.js
+deploy/remote-setup.sh

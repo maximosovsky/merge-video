@@ -1,0 +1,13 @@
+# fly.toml — merge-video-bot (polling only, no web server)
+app = 'merge-video-bot'
+primary_region = 'fra'
+
+[build]
+
+[processes]
+  app = "python main.py"
+
+[[vm]]
+  memory = '256mb'
+  cpu_kind = 'shared'
+  cpus = 1
