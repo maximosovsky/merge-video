@@ -33,7 +33,7 @@ Merge Video is a self-hosted service with a **web UI**, **Telegram bot**, and **
 
 | Feature | Description |
 |---------|-------------|
-| 🔗 **YouTube URLs** | Paste links — videos are downloaded via yt-dlp and merged |
+| 🔗 **YouTube URLs** | Paste links — videos downloaded via yt-dlp through residential proxy and merged |
 | 📁 **Local Upload** | Drag & drop files from your computer |
 | 🎚️ **3 Quality Modes** | Compact (CRF 23), High Quality (CRF 18), Lossless (no re-encode) |
 | 📐 **Smart Resolution** | Auto-detects minimum resolution across files, no upscaling |
@@ -83,6 +83,7 @@ cp .env.example .env
 | `BASE_URL` | Backend public URL | Yes |
 | `BOT_TOKEN` | Telegram bot token | Bot only |
 | `BACKEND_URL` | Backend URL for bot API calls | Bot only |
+| `PROXY_URL` | SOCKS5h residential proxy for YouTube downloads | YouTube mode |
 
 </details>
 
@@ -93,7 +94,7 @@ cp .env.example .env
 | Layer | Technology |
 |-------|------------|
 | Backend | Python 3.11, FastAPI, uvicorn |
-| Video download | yt-dlp |
+| Video download | yt-dlp + PySocks (via residential proxy) |
 | Video merge | ffmpeg (two-pass: normalize → concat demuxer) |
 | YouTube upload | google-api-python-client, OAuth2 |
 | Email | Gmail API (OAuth2) |
@@ -132,11 +133,12 @@ merge-video/
 - [x] Email notifications (Gmail API)
 - [x] Telegram bot (Fly.io)
 - [x] Backend deploy (Alibaba ECS)
-- [ ] DNS — `merge-video.osovsky.com`
-- [ ] SSL — certbot + HTTPS
-- [ ] Google Console — production redirect URIs
-- [ ] Telegram Bot — connect to production backend
-- [ ] End-to-end production test
+- [x] DNS — `merge-video.osovsky.com`
+- [x] SSL — certbot + HTTPS
+- [x] Google Console — production redirect URIs
+- [x] Telegram Bot — connected to production backend
+- [x] Residential proxy (Decodo) for YouTube downloads
+- [x] End-to-end production test (YouTube URLs → proxy → merge → upload → email)
 
 ---
 

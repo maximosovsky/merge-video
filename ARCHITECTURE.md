@@ -9,7 +9,7 @@ A service for merging video files (YouTube URLs or local uploads) into a single 
 | Layer | Technology |
 |-------|-----------|
 | Backend | Python 3.11, FastAPI, uvicorn |
-| Video download | yt-dlp |
+| Video download | yt-dlp + PySocks (via Decodo residential proxy) |
 | Video merge | ffmpeg (two-pass: normalize → concat demuxer) |
 | YouTube upload | google-api-python-client, OAuth2 |
 | Email | Gmail API (OAuth2, send scope) |
@@ -59,10 +59,12 @@ merge-video/
 ```
 User → POST /merge {urls, title, merge_mode}
   → JobQueue → worker
-  → yt-dlp download → temp/{job_id}/001.mp4, 002.mp4, ...
+  → yt-dlp download via Decodo SOCKS5h proxy → temp/{job_id}/001.mp4, 002.mp4, ...
   → Two-pass merge → YouTube upload → email notification
   → Cleanup temp
 ```
+
+> YouTube blocks datacenter IPs. All yt-dlp downloads are routed through a residential proxy (Decodo, SOCKS5h) configured via `PROXY_URL` in `.env`.
 
 ### Local File Upload (Web)
 ```
@@ -117,7 +119,7 @@ All emails sent via Gmail API with CC to `izdanie@gmail.com`.
 | Event | Subject |
 |-------|---------|
 | Auth | 🔐 Merge Video — Authorized |
-| Job start | ⏳ Merging: "title" (N files) |
+| Job start | 📦 Merging: "title" (N files) |
 | Success | 🎬 Merged: "title" (with size + resolution) |
 | Error | ❌ Merge failed: "title" (with error excerpt) |
 
@@ -131,6 +133,7 @@ Site rewritten from scratch (no Umso framework). Single `index.html` + external 
 | Hero | Title, subtitle, MIT badge, CTA buttons (mobile-only) |
 | Features | 3 blocks: Google Drive, Google Photos, YouTube |
 | Modal | Tabs: YouTube URLs / Local Files, quality selector, toggle switch, output title |
+| Coffee status | During processing: ☕ "Go grab a coffee!" + email reminder (replaces raw progress) |
 | Footer | Copyright, social icons (GitHub, Telegram, DEV.to) |
 | Auth | Google Sign-In → avatar with rainbow border, dropdown (name, email, Sign Out) |
 | Mobile | Responsive `@media (max-width: 768px)`, compact feature blocks |
@@ -179,8 +182,10 @@ Backend (`main.py`) serves static files:
 | Large files | Tested up to 13 GB; >50 GB needs worker with >6 GB RAM |
 | Single worker | No parallel merges; queue only |
 | Bot ↔ Backend | Bot calls backend API over public internet (no internal network) |
+| Proxy cost | YouTube downloads require residential proxy (~$6/GB via Decodo) |
 
 ## Stress Test Results
 
 - ✅ 52 YouTube videos merged (varied resolutions/codecs)
 - ✅ 13 GB local file upload via HTTP multipart
+- ✅ E2E: 2 YouTube videos (870 MB) → Decodo proxy → merge → YouTube upload (980 MB) → email
