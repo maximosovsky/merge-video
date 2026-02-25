@@ -5,7 +5,7 @@ import uuid
 import shutil
 from pathlib import Path
 
-from config import TEMP_DIR, MAX_VIDEO_DURATION_SEC
+from config import TEMP_DIR, MAX_VIDEO_DURATION_SEC, PROXY_URL
 
 COOKIES_FILE = Path(__file__).parent / "cookies.txt"
 
@@ -29,6 +29,8 @@ async def expand_urls(urls: list[str]) -> list[str]:
             if COOKIES_FILE.exists():
                 cmd.extend(["--cookies", str(COOKIES_FILE)])
             cmd.extend(["--js-runtimes", "node"])
+            if PROXY_URL:
+                cmd.extend(["--proxy", PROXY_URL])
             cmd.append(url)
             proc = await _run(cmd)
             if proc.returncode == 0 and proc.stdout.strip():
@@ -58,6 +60,8 @@ async def download_videos(urls: list[str], job_dir: Path) -> list[Path]:
         if COOKIES_FILE.exists():
             cmd.extend(["--cookies", str(COOKIES_FILE)])
         cmd.extend(["--js-runtimes", "node"])
+        if PROXY_URL:
+            cmd.extend(["--proxy", PROXY_URL])
         cmd.append(url)
         proc = await _run(cmd)
         if proc.returncode != 0:

@@ -66,4 +66,27 @@
 - [x] Telegram Bot
 - [x] Server hardening (fail2ban, UFW, SSH key-only, rate limiting)
 - [ ] E2E тест (OAuth + merge + upload)
-- [ ] Frankfurt VPC — повторить `node deploy/cleanup.js`
+- [x] Frankfurt VPC — `node deploy/cleanup.js`
+
+## Скачивание с YouTube — результаты тестов
+
+Проблема: datacenter IP (47.84.36.115, Alibaba Cloud Singapore) заблокирован YouTube. Node.js установлен, cookies валидны, yt-dlp актуален — блокирует именно IP.
+
+| # | Вариант | Стоимость | Результат | Причина отказа |
+|---|---------|-----------|-----------|----------------|
+| 1 | **yt-dlp с сервера** | $0 | ❌ | Datacenter IP заблокирован |
+| 2 | **Residential proxy (Decodo)** | $6/GB (2 GB план $12/мес) | ✅ | **Работает!** SOCKS5h через gate.decodo.com:7000 |
+| 3 | **VPN-контейнер** | ~$5/мес | — | Не нужен (proxy работает) |
+| 4 | **Self-hosted Cobalt** | $0 | ❌ | `Failed to extract signature decipher algorithm` |
+| 5 | **Cobalt public API** | $0 | ❌ | JWT/Turnstile auth |
+| — | **RapidAPI YTStream** | $0 | ❌ | CDN URL привязан к IP сервиса → 403 |
+| — | **savefrom.net** | $0 | ❌ | `CLIENT_NOT_RECOGNIZED` |
+
+### Что работает
+- ✅ **yt-dlp с сервера + Decodo proxy** — SOCKS5h residential IP → скачивание работает
+- ✅ **yt-dlp с локального ПК** — Firefox cookies + Node.js + EJS → 16.81 MiB за 3:47
+- ✅ **ffmpeg merge на Alibaba** — 2170x скорость
+- ✅ **YouTube upload с Alibaba** — OAuth2 настроен
+
+### Следующие шаги
+Интегрировать Decodo proxy в `video.py` → E2E тест Режима 1 (YouTube URLs → merge → upload).

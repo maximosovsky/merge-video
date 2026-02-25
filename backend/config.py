@@ -26,3 +26,6 @@ BASE_URL = os.getenv("BASE_URL", "http://localhost:8000")
 # Limits
 MAX_VIDEOS = 100
 MAX_VIDEO_DURATION_SEC = 3600  # 1 hour per video
+
+# Proxy for yt-dlp (residential proxy to bypass YouTube datacenter IP blocks)
+PROXY_URL = os.getenv("PROXY_URL", "")
