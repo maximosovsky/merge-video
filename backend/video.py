@@ -8,7 +8,7 @@ from pathlib import Path
 from config import TEMP_DIR, MAX_VIDEO_DURATION_SEC
 
 
-async def expand_urls(urls: list[str]) -> list[str]:
+async def expand_urls(urls: list[str], access_token: str = "") -> list[str]:
     """Expand playlist URLs into individual video URLs using yt-dlp.
     Regular video URLs pass through unchanged."""
     expanded = []
@@ -22,8 +22,10 @@ async def expand_urls(urls: list[str]) -> list[str]:
                 "yt-dlp", "--flat-playlist",
                 "--print", "url",
                 "--no-warnings",
-                url,
             ]
+            if access_token:
+                cmd.extend(["--add-header", f"Authorization:Bearer {access_token}"])
+            cmd.append(url)
             proc = await _run(cmd)
             if proc.returncode == 0 and proc.stdout.strip():
                 playlist_urls = [u.strip() for u in proc.stdout.strip().split("\n") if u.strip()]
@@ -36,7 +38,7 @@ async def expand_urls(urls: list[str]) -> list[str]:
     return expanded
 
 
-async def download_videos(urls: list[str], job_dir: Path) -> list[Path]:
+async def download_videos(urls: list[str], job_dir: Path, access_token: str = "") -> list[Path]:
     """Download YouTube videos using yt-dlp. Returns list of file paths."""
     files = []
     for i, url in enumerate(urls):
@@ -48,8 +50,10 @@ async def download_videos(urls: list[str], job_dir: Path) -> list[Path]:
             "--max-filesize", "500M",
             "--socket-timeout", "30",
             "-o", str(output_path),
-            url,
         ]
+        if access_token:
+            cmd.extend(["--add-header", f"Authorization:Bearer {access_token}"])
+        cmd.append(url)
         proc = await _run(cmd)
         if proc.returncode != 0:
             raise RuntimeError(f"yt-dlp failed for {url}: {proc.stderr}")

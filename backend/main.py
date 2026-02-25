@@ -72,17 +72,17 @@ async def merge(req: MergeRequest):
     """Start a merge job. Supports both individual URLs and playlist URLs."""
     import traceback
     try:
+        creds = get_credentials(req.user_id)
+        if creds is None:
+            raise HTTPException(401, "YouTube not authorized. Visit /auth/youtube?user_id=... first")
+
         # Expand playlist URLs into individual video URLs
-        expanded = await expand_urls(req.urls)
+        expanded = await expand_urls(req.urls, access_token=creds.token or "")
 
         if len(expanded) < 2:
             raise HTTPException(400, "Need at least 2 videos to merge (playlist may contain only 1)")
         if len(expanded) > MAX_VIDEOS:
             raise HTTPException(400, f"Too many videos ({len(expanded)}). Maximum {MAX_VIDEOS} allowed")
-
-        creds = get_credentials(req.user_id)
-        if creds is None:
-            raise HTTPException(401, "YouTube not authorized. Visit /auth/youtube?user_id=... first")
 
         job_id, job_dir = create_job_dir()
         job = Job(
