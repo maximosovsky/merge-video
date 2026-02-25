@@ -1,6 +1,7 @@
 __pycache__/
 *.pyc
 .env
+cookies.txt
 temp/
 *.session
 *.session-journal

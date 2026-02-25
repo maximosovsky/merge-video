@@ -7,6 +7,8 @@ from pathlib import Path
 
 from config import TEMP_DIR, MAX_VIDEO_DURATION_SEC
 
+COOKIES_FILE = Path(__file__).parent / "cookies.txt"
+
 
 async def expand_urls(urls: list[str]) -> list[str]:
     """Expand playlist URLs into individual video URLs using yt-dlp.
@@ -23,7 +25,8 @@ async def expand_urls(urls: list[str]) -> list[str]:
                 "--print", "url",
                 "--no-warnings",
             ]
-            cmd.extend(["--username", "oauth2", "--password", ""])
+            if COOKIES_FILE.exists():
+                cmd.extend(["--cookies", str(COOKIES_FILE)])
             cmd.append(url)
             proc = await _run(cmd)
             if proc.returncode == 0 and proc.stdout.strip():
@@ -50,7 +53,8 @@ async def download_videos(urls: list[str], job_dir: Path) -> list[Path]:
             "--socket-timeout", "30",
             "-o", str(output_path),
         ]
-        cmd.extend(["--username", "oauth2", "--password", ""])
+        if COOKIES_FILE.exists():
+            cmd.extend(["--cookies", str(COOKIES_FILE)])
         cmd.append(url)
         proc = await _run(cmd)
         if proc.returncode != 0:
