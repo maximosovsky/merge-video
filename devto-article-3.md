@@ -3,7 +3,7 @@ title: 7 Failed Attempts to Create One Cloud Server on Alibaba Cloud
 published: false
 description: I needed a VPS for my video merging backend. Alibaba Cloud made me try 7 different instance/zone/disk combinations before one finally worked.
 tags: devops, deployment, buildinpublic, cloud
-cover_image: https://raw.githubusercontent.com/maximosovsky/merge-video/master/assets/merge-video-3.jpg
+cover_image: https://raw.githubusercontent.com/maximosovsky/merge-video/master/assets/mergevideo-3.jpg
 ---
 
 *This is Part 3. [Part 1](https://dev.to/osovsky/i-tried-to-merge-52-video-files-automatically-here-are-3-bugs-that-almost-killed-the-project) covered 3 bugs in the video merging engine. [Part 2](https://dev.to/osovsky/3-deployment-fails-that-made-me-quit-oracle-cloud-forever-13gk) was about Oracle Cloud's "Always Free" servers that don't exist. This one is about what happened when I tried Alibaba Cloud instead.*
@@ -14,7 +14,7 @@ cover_image: https://raw.githubusercontent.com/maximosovsky/merge-video/master/a
 
 I run long strategy sessions — 6 to 8 hours each — where we plan product roadmaps, discuss architecture, and make decisions on camera. Each session produces 30 to 50 short video clips that need to be merged into one continuous video.
 
-![Maxim Osovsky during a strategy session](https://raw.githubusercontent.com/maximosovsky/merge-video/master/assets/osovsky-strategy.jpg)
+![Maxim Osovsky during a strategy session](https://raw.githubusercontent.com/maximosovsky/merge-video/master/assets/strategy_osovsky.jpg)
 
 I offered **$2,000** to a developer to build a service that merges videos and uploads them to YouTube. They turned it down — didn't see the problem it solved. Multiple developers refused. So I built [Merge Video](https://github.com/maximosovsky/merge-video) myself — with AI as my pair programmer, in 3 days, for $0 in development costs. The code works. Now I needed to put it on a server.
 
